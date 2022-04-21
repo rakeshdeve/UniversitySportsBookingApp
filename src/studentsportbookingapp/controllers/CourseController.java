@@ -39,6 +39,10 @@ public class CourseController {
 		}
 		return instance;
 	}
+	
+	public CourseView getCourseView() {
+		return courseView;
+	}
 
 	public void bookGroupExcerciseView() {
 		courseView.bookGroupExcerciseView();

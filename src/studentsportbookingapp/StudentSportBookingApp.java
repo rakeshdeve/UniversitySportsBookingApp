@@ -3,7 +3,6 @@
  */
 package studentsportbookingapp;
 import studentsportbookingapp.controllers.*;
-import studentsportbookingapp.views.*;
 
 
 public class StudentSportBookingApp {

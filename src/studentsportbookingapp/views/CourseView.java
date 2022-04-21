@@ -38,27 +38,28 @@ public class CourseView {
 		int studentId = sc.nextInt();
 		if (studentId > 0 && studentId <= 20) {
 			globalStudentId = studentId;
-			getStudentDetailsbyId(studentId);
+			var studentDetails = getStudentDetailsbyId(studentId);
+			if (studentDetails != null) {
+				System.out.println("Welcome " + studentDetails.getStudentName() + "!..");
+				chooseTimetable();
+			}
 		} else {
 			System.out.println("Invalid Student Id");
 		}
 	}
 
-	public void getStudentDetailsbyId(int studentId) {
+	//Get Student Details By Id
+	public Student getStudentDetailsbyId(int studentId) {
+		Student studentDetails = new Student();
 		if (studentId > 0) {
 			var preRegisteredStudents = CourseController.getInstance().getPreregisteredStudents();
 			if (preRegisteredStudents != null && !preRegisteredStudents.isEmpty()) {
 				// Predicate
-				var studentDetails = preRegisteredStudents.stream().filter(s -> s.getStudentId() == studentId)
-						.findFirst().orElse(null);
-
-				if (studentDetails != null) {
-					System.out.println("Welcome " + studentDetails.getStudentName() + "!..");
-					chooseTimetable();
-				}
+				studentDetails = preRegisteredStudents.stream().filter(s -> s.getStudentId() == studentId).findFirst()
+						.orElse(null);
 			}
 		}
-
+		return studentDetails;
 	}
 
 	public void chooseTimetable() {
@@ -168,7 +169,6 @@ public class CourseView {
 					.collect(Collectors.toList());
 		}
 
-		
 		st.setHeaders("DAY", "DATE", "MORNING(Courses)", "PRICE", "AFTERNOON(Courses)", "PRICE", "EVENING(Courses)",
 				"PRICE");
 		for (var item : list.daysList) {
@@ -290,14 +290,15 @@ public class CourseView {
 
 					if (changeBookingId != null && !changeBookingId.isBlank() && !changeBookingId.isEmpty()) {
 						// Change Booking
-						CourseController.getBookingList().stream().filter(f -> f.getBookingId().equals(changeBookingId)).map(t -> {
-							t.setBookingStatus(BookingStatusEnum.CHANGED);
-							t.setLessonName(lessonName);
-							t.setLessonDate(lessonDate);
-							t.setBookingDate(LocalDate.now());
-							t.setLessonPrice(LessonPricing.getPriceByLessonName(lessonName));
-							return t;
-						}).collect(Collectors.toList());
+						CourseController.getBookingList().stream().filter(f -> f.getBookingId().equals(changeBookingId))
+								.map(t -> {
+									t.setBookingStatus(BookingStatusEnum.CHANGED);
+									t.setLessonName(lessonName);
+									t.setLessonDate(lessonDate);
+									t.setBookingDate(LocalDate.now());
+									t.setLessonPrice(LessonPricing.getPriceByLessonName(lessonName));
+									return t;
+								}).collect(Collectors.toList());
 						System.out.println(lessonName.getlessonName() + " changed successfully!");
 						System.out.println("Your Booking Id is " + changeBookingId);
 						changeBookingId = null;
@@ -315,15 +316,16 @@ public class CourseView {
 						bookingObj.setLessonPrice(LessonPricing.getPriceByLessonName(lessonName));
 						list.add(bookingObj);
 						CourseController.setStudentBookingList(list);
-						System.out.println(lessonName.getlessonName() + " booked successfully!");
+						System.out.println("Thank you for booking the excercise");
+						System.out.println(lessonName.getlessonName() + " is booked successfully!");
 						System.out.println("Your Booking Id is " + bookingObj.getBookingId());
 					}
 
 				} else {
-					System.out.println("Slot not available for selected date and lesson");
+					System.out.println("Sorry the slot is not available for selected date and lesson");
 				}
 			} else {
-				System.out.println("Please try a different date, slot already booked for this student");
+				System.out.println("Please try a different date, slot is already booked for this student");
 			}
 		} else {
 			System.out.println("Record not exist in timetable");
@@ -344,6 +346,7 @@ public class CourseView {
 	public void changeBookingView() {
 
 		Scanner sc = new Scanner(System.in);
+		System.out.println("============================================== ");
 		System.out.println("\nChange a Booking\n=====================");
 		System.out.println("1. Change to a new lesson");
 		System.out.println("2. Cancel a booking");
@@ -384,8 +387,6 @@ public class CourseView {
 
 	}
 
-	
-
 	public void cancelBookingById() {
 
 		String cancelBookingId;
@@ -409,7 +410,7 @@ public class CourseView {
 
 				// Cancel booking
 				changeBoookingStatusByBookingId(cancelBookingId, BookingStatusEnum.CANCELLED);
-				
+
 				System.out.println("Your booking cancelled successfully!");
 				HomeController.getInstance().getMainView();
 				globalStudentId = 0;
@@ -422,7 +423,6 @@ public class CourseView {
 		}
 
 	}
-
 
 	public void changeBoookingStatusByBookingId(String bookingId, BookingStatusEnum status) {
 		if (bookingId != null && !bookingId.isBlank() && !bookingId.isEmpty()) {
@@ -466,6 +466,7 @@ public class CourseView {
 			HomeController.getInstance().getMainView();
 		}
 	}
+
 	public void ratingMenuView(String bookingId) {
 		Scanner sc = new Scanner(System.in);
 		int rating;
@@ -483,8 +484,7 @@ public class CourseView {
 		}
 		rating = sc.nextInt();
 
-		while(rating < 1 && rating > 4)
-		{
+		while (rating < 1 && rating > 4) {
 			System.out.println("Please enter a valid option: ");
 			rating = sc.nextInt();
 		}
@@ -511,13 +511,13 @@ public class CourseView {
 		do {
 			review = input.nextLine();
 		} while (review.isBlank() && review.isEmpty());
-		
-		assignRatingAndReview(bookingId,rating,review);
+
+		assignRatingAndReview(bookingId, rating, review);
 		System.out.println("Thank you for your rating and review");
 		HomeController.getInstance().getMainView();
-	
+
 	}
-	
+
 	public void assignRatingAndReview(String bookingId, int rating, String review) {
 		CourseController.getBookingList().stream().filter(f -> f.getBookingId().equals(bookingId)).map(t -> {
 			t.setRating(rating);
