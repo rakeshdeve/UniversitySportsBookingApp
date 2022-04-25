@@ -2,7 +2,7 @@ package studentsportbookingapp.utilities;
 
 
 
-public enum ExcerciseNamesEnum {
+public enum ExerciseNamesEnum {
 	YOGA("Yoga"),
 	ZUMBA("Zumba"),
 	AQUACISE("Aquacise"),
@@ -10,13 +10,13 @@ public enum ExcerciseNamesEnum {
 	BODY_BLITZ("Body Blitz"),
 	BOXING("Boxing");
 	
-	private final String name;
+	private final String exerciseName;
 
-	ExcerciseNamesEnum(String lessonName) {
-        name = lessonName;
+	ExerciseNamesEnum(String exerciseName) {
+		this.exerciseName = exerciseName;
     }
     public String getlessonName() {
-        return name;
+        return exerciseName;
     }
 }
 

@@ -8,8 +8,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import studentsportbookingapp.controllers.CourseController;
-import studentsportbookingapp.utilities.ExcerciseDaysEnum;
-import studentsportbookingapp.utilities.ExcerciseNamesEnum;
+import studentsportbookingapp.utilities.ExerciseDaysEnum;
+import studentsportbookingapp.utilities.ExerciseNamesEnum;
 import studentsportbookingapp.utilities.LessonPricing;
 import studentsportbookingapp.utilities.SessionsEnum;
 
@@ -32,29 +32,29 @@ public class TimeTable {
 	public TimeTable getTimeTable() {
 		TimeTable tbl = TimeTable.getInstance();
 
-		var week1day1 = assignDayTimeTable(LocalDate.of(2022, Month.APRIL, 2), ExcerciseDaysEnum.SATURDAY, true);
-		var week1day2 = assignDayTimeTable(LocalDate.of(2022, Month.APRIL, 3), ExcerciseDaysEnum.SUNDAY, false);
+		var week1day1 = assignDayTimeTable(LocalDate.of(2022, Month.APRIL, 2), ExerciseDaysEnum.SATURDAY, true);
+		var week1day2 = assignDayTimeTable(LocalDate.of(2022, Month.APRIL, 3), ExerciseDaysEnum.SUNDAY, false);
 
-		var week2day1 = assignDayTimeTable(LocalDate.of(2022, Month.APRIL, 9), ExcerciseDaysEnum.SATURDAY, true);
-		var week2day2 = assignDayTimeTable(LocalDate.of(2022, Month.APRIL, 10), ExcerciseDaysEnum.SUNDAY, false);
+		var week2day1 = assignDayTimeTable(LocalDate.of(2022, Month.APRIL, 9), ExerciseDaysEnum.SATURDAY, true);
+		var week2day2 = assignDayTimeTable(LocalDate.of(2022, Month.APRIL, 10), ExerciseDaysEnum.SUNDAY, false);
 
-		var week3day1 = assignDayTimeTable(LocalDate.of(2022, Month.APRIL, 16), ExcerciseDaysEnum.SATURDAY, true);
-		var week3day2 = assignDayTimeTable(LocalDate.of(2022, Month.APRIL, 17), ExcerciseDaysEnum.SUNDAY, false);
+		var week3day1 = assignDayTimeTable(LocalDate.of(2022, Month.APRIL, 16), ExerciseDaysEnum.SATURDAY, true);
+		var week3day2 = assignDayTimeTable(LocalDate.of(2022, Month.APRIL, 17), ExerciseDaysEnum.SUNDAY, false);
 
-		var week4day1 = assignDayTimeTable(LocalDate.of(2022, Month.APRIL, 23), ExcerciseDaysEnum.SATURDAY, true);
-		var week4day2 = assignDayTimeTable(LocalDate.of(2022, Month.APRIL, 24), ExcerciseDaysEnum.SUNDAY, false);
+		var week4day1 = assignDayTimeTable(LocalDate.of(2022, Month.APRIL, 23), ExerciseDaysEnum.SATURDAY, true);
+		var week4day2 = assignDayTimeTable(LocalDate.of(2022, Month.APRIL, 24), ExerciseDaysEnum.SUNDAY, false);
 
-		var week5day1 = assignDayTimeTable(LocalDate.of(2022, Month.APRIL, 30), ExcerciseDaysEnum.SATURDAY, true);
-		var week5day2 = assignDayTimeTable(LocalDate.of(2022, Month.MAY, 1), ExcerciseDaysEnum.SUNDAY, false);
+		var week5day1 = assignDayTimeTable(LocalDate.of(2022, Month.APRIL, 30), ExerciseDaysEnum.SATURDAY, true);
+		var week5day2 = assignDayTimeTable(LocalDate.of(2022, Month.MAY, 1), ExerciseDaysEnum.SUNDAY, false);
 
-		var week6day1 = assignDayTimeTable(LocalDate.of(2022, Month.MAY, 7), ExcerciseDaysEnum.SATURDAY, true);
-		var week6day2 = assignDayTimeTable(LocalDate.of(2022, Month.MAY, 8), ExcerciseDaysEnum.SUNDAY, false);
+		var week6day1 = assignDayTimeTable(LocalDate.of(2022, Month.MAY, 7), ExerciseDaysEnum.SATURDAY, true);
+		var week6day2 = assignDayTimeTable(LocalDate.of(2022, Month.MAY, 8), ExerciseDaysEnum.SUNDAY, false);
 
-		var week7day1 = assignDayTimeTable(LocalDate.of(2022, Month.MAY, 14), ExcerciseDaysEnum.SATURDAY, true);
-		var week7day2 = assignDayTimeTable(LocalDate.of(2022, Month.MAY, 15), ExcerciseDaysEnum.SUNDAY, false);
+		var week7day1 = assignDayTimeTable(LocalDate.of(2022, Month.MAY, 14), ExerciseDaysEnum.SATURDAY, true);
+		var week7day2 = assignDayTimeTable(LocalDate.of(2022, Month.MAY, 15), ExerciseDaysEnum.SUNDAY, false);
 
-		var week8day1 = assignDayTimeTable(LocalDate.of(2022, Month.MAY, 21), ExcerciseDaysEnum.SATURDAY, true);
-		var week8day2 = assignDayTimeTable(LocalDate.of(2022, Month.MAY, 22), ExcerciseDaysEnum.SUNDAY, false);
+		var week8day1 = assignDayTimeTable(LocalDate.of(2022, Month.MAY, 21), ExerciseDaysEnum.SATURDAY, true);
+		var week8day2 = assignDayTimeTable(LocalDate.of(2022, Month.MAY, 22), ExerciseDaysEnum.SUNDAY, false);
 
 		tbl.daysList = new ArrayList<Days>(
 				Arrays.asList(week1day1, week1day2, week2day1, week2day2, week3day1, week3day2, week4day1, week4day2,
@@ -63,18 +63,18 @@ public class TimeTable {
 		return tbl;
 	}
 
-	public static Days assignDayTimeTable(LocalDate date, ExcerciseDaysEnum dayName, boolean isDay1) {
+	public static Days assignDayTimeTable(LocalDate date, ExerciseDaysEnum dayName, boolean isDay1) {
 		Days dayObj = new Days(date, dayName);
 		if (isDay1) {
 
-			var lesson1 = assignLesson(ExcerciseNamesEnum.YOGA, SessionsEnum.MORNING);
-			var lesson2 = assignLesson(ExcerciseNamesEnum.ZUMBA, SessionsEnum.AFTERNOON);
-			var lesson3 = assignLesson(ExcerciseNamesEnum.AQUACISE, SessionsEnum.EVENING);
+			var lesson1 = assignLesson(ExerciseNamesEnum.YOGA, SessionsEnum.MORNING);
+			var lesson2 = assignLesson(ExerciseNamesEnum.ZUMBA, SessionsEnum.AFTERNOON);
+			var lesson3 = assignLesson(ExerciseNamesEnum.AQUACISE, SessionsEnum.EVENING);
 			dayObj.lessonList = new ArrayList<Lesson>(Arrays.asList(lesson1, lesson2, lesson3));
 		} else {
-			var lesson1 = assignLesson(ExcerciseNamesEnum.BOX_FIT, SessionsEnum.MORNING);
-			var lesson2 = assignLesson(ExcerciseNamesEnum.BODY_BLITZ, SessionsEnum.AFTERNOON);
-			var lesson3 = assignLesson(ExcerciseNamesEnum.BOXING, SessionsEnum.EVENING);
+			var lesson1 = assignLesson(ExerciseNamesEnum.BOX_FIT, SessionsEnum.MORNING);
+			var lesson2 = assignLesson(ExerciseNamesEnum.BODY_BLITZ, SessionsEnum.AFTERNOON);
+			var lesson3 = assignLesson(ExerciseNamesEnum.BOXING, SessionsEnum.EVENING);
 			dayObj.lessonList = new ArrayList<Lesson>(Arrays.asList(lesson1, lesson2, lesson3));
 		}
 
@@ -82,7 +82,7 @@ public class TimeTable {
 
 	}
 
-	public static Lesson assignLesson(ExcerciseNamesEnum lessonName, SessionsEnum sessionName) {
+	public static Lesson assignLesson(ExerciseNamesEnum lessonName, SessionsEnum sessionName) {
 
 		Lesson lessonDetails = new Lesson();
 		lessonDetails.setSessionName(sessionName);
@@ -120,11 +120,11 @@ public class TimeTable {
 		return lessonDetails;
 	}
 
-	public static boolean CheckLessonAndDateAvailable(ExcerciseNamesEnum lessonName, LocalDate date) {
+	public static boolean checkLessonAndDateAvailable(ExerciseNamesEnum lessonName, LocalDate date) {
 		boolean isAvailable = false;
 		var lst = TimeTable.getInstance().getTimeTable().daysList;
 		var lessonDetails = TimeTable.getInstance().getTimeTable().daysList.stream()
-				.filter(s -> s.getLocalDate().isEqual(date)).findFirst().orElse(null);
+				.filter(s -> s.getDate().isEqual(date)).findFirst().orElse(null);
 		if (lessonDetails != null && lessonDetails.lessonList != null) {
 			isAvailable = lessonDetails.lessonList.stream().anyMatch(p -> p.getLessonName().equals(lessonName));
 
@@ -135,7 +135,7 @@ public class TimeTable {
 
 	public static List<Days> getTimeTableByMonthName(int month) {
 		var list = TimeTable.getInstance().getTimeTable().daysList.stream()
-				.filter(s -> s.getLocalDate().getMonthValue() == month).collect(Collectors.toList());
+				.filter(s -> s.getDate().getMonthValue() == month).collect(Collectors.toList());
 		return list;
 	}
 }

@@ -18,14 +18,14 @@ public class LessonPricing {
 	public static final double BODY_BLITZ_PRICE = 4.99;
 	public static final double BOXING_PRICE = 3.99;
 	
-	public static double getPriceByLessonName(ExcerciseNamesEnum lessonName) {
-		HashMap<ExcerciseNamesEnum,Double> lessonList = new HashMap<ExcerciseNamesEnum, Double>();
-		lessonList.put(ExcerciseNamesEnum.YOGA, YOGA_PRICE);
-		lessonList.put(ExcerciseNamesEnum.ZUMBA, ZUMBA_PRICE);
-		lessonList.put(ExcerciseNamesEnum.AQUACISE, AQUACISE_PRICE);
-		lessonList.put(ExcerciseNamesEnum.BOX_FIT, BOX_FIT_PRICE);
-		lessonList.put(ExcerciseNamesEnum.BODY_BLITZ, BODY_BLITZ_PRICE);
-		lessonList.put(ExcerciseNamesEnum.BOXING, BOXING_PRICE);
+	public static double getPriceByLessonName(ExerciseNamesEnum lessonName) {
+		HashMap<ExerciseNamesEnum,Double> lessonList = new HashMap<ExerciseNamesEnum, Double>();
+		lessonList.put(ExerciseNamesEnum.YOGA, YOGA_PRICE);
+		lessonList.put(ExerciseNamesEnum.ZUMBA, ZUMBA_PRICE);
+		lessonList.put(ExerciseNamesEnum.AQUACISE, AQUACISE_PRICE);
+		lessonList.put(ExerciseNamesEnum.BOX_FIT, BOX_FIT_PRICE);
+		lessonList.put(ExerciseNamesEnum.BODY_BLITZ, BODY_BLITZ_PRICE);
+		lessonList.put(ExerciseNamesEnum.BOXING, BOXING_PRICE);
 		
 		return lessonList.get(lessonName);
 	}

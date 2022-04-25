@@ -7,7 +7,7 @@ package studentsportbookingapp.utilities;
  * @author Rakeshsharma
  *
  */
-public enum ExcerciseDaysEnum {
+public enum ExerciseDaysEnum {
 SATURDAY,
 SUNDAY
 }

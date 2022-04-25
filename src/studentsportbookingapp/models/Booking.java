@@ -18,7 +18,7 @@ public class Booking extends Student {
 	private LocalDate bookingDate;
 	private LocalDate lessonDate;
 	private BookingStatusEnum bookingStatus;
-	private ExcerciseNamesEnum lessonName;
+	private ExerciseNamesEnum lessonName;
 	private int rating;
 	private String review;
 	private double lessonPrice;
@@ -28,7 +28,7 @@ public class Booking extends Student {
 	}
 
 	public Booking(int studentId, String bookingId, LocalDate lessonDate,
-			BookingStatusEnum bookingStatus, ExcerciseNamesEnum lessonName, int rating, String review,
+			BookingStatusEnum bookingStatus, ExerciseNamesEnum lessonName, int rating, String review,
 			double lessonPrice) {
 		this.setStudentId(studentId);
 		this.setBookingId(bookingId);
@@ -72,11 +72,11 @@ public class Booking extends Student {
 		this.bookingStatus = bookingStatus;
 	}
 
-	public ExcerciseNamesEnum getLessonName() {
+	public ExerciseNamesEnum getLessonName() {
 		return lessonName;
 	}
 
-	public void setLessonName(ExcerciseNamesEnum lessonName) {
+	public void setLessonName(ExerciseNamesEnum lessonName) {
 		this.lessonName = lessonName;
 	}
 

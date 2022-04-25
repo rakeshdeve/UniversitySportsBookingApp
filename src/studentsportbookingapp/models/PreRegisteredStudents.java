@@ -10,7 +10,7 @@ import java.util.*;
  */
 public class PreRegisteredStudents {
 
-	public static ArrayList<Student>GetPreRegisteredStudents()
+	public static ArrayList<Student>getPreRegisteredStudents()
 	{
 		ArrayList<Student> studentList = new ArrayList<Student>();	
 		studentList.add(new Student(1,"Joe","Tribianny"));

@@ -5,12 +5,12 @@ public enum BookingStatusEnum {
 	ATTENDED("Attended"), 
 	CHANGED("Changed"), 
 	CANCELLED("Cancelled");
-	private final String name;
+	private final String statusName;
 
 	BookingStatusEnum(String status) {
-        name = status;
+		this.statusName = status;
     }
     public String getStatus() {
-        return name;
+        return statusName;
     }
 }

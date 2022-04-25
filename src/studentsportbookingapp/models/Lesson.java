@@ -11,7 +11,7 @@ import studentsportbookingapp.utilities.*;
  */
 public class Lesson {
 
-	private ExcerciseNamesEnum lessonName;
+	private ExerciseNamesEnum lessonName;
 	private double lessonPrice;
 	public SessionsEnum sessionName;
 	
@@ -19,17 +19,17 @@ public class Lesson {
 		
 	}
 	
-	public Lesson(ExcerciseNamesEnum lessonName, double lessonPrice) 
+	public Lesson(ExerciseNamesEnum lessonName, double lessonPrice) 
 	{
 		this.lessonName = lessonName;
 		this.lessonPrice = lessonPrice;
 	}
 	
-	public void setLessonName(ExcerciseNamesEnum lessonName) 
+	public void setLessonName(ExerciseNamesEnum lessonName) 
 	{
 		this.lessonName = lessonName;
 	}
-	public ExcerciseNamesEnum getLessonName() 
+	public ExerciseNamesEnum getLessonName() 
 	{
 		return lessonName;
 	}

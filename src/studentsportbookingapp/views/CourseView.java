@@ -3,11 +3,8 @@
  */
 package studentsportbookingapp.views;
 
-import java.text.*;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 import java.util.stream.*;
 
@@ -21,70 +18,68 @@ import studentsportbookingapp.utilities.*;
  */
 public class CourseView {
 
-	Booking booking = new Booking();
 	public int globalStudentId;
-	public static final int MAX_STUDENT_COUNT = 4;
-	String changeBookingId;
+	private static final int MAX_STUDENT_COUNT = 4;
+	public String changeBookingId;
 
-	public void bookGroupExcerciseView() {
+	public void bookGroupExerciseView() {
 		Scanner sc = new Scanner(System.in);
-		System.out.println("--Student Id from 1 to 20");
-		System.out.println("Enter your student Id:");
-
-		if (!sc.hasNextInt()) {
+		System.out.println("******* Book a group exercise lesson *********************");
+		System.out.println("***********************************************************");
+		System.out.println("Enter your student Id from 1 to 20:");
+		int studentId = 0;
+		while (!sc.hasNextInt()) {
 			System.out.println("Invalid Student Id");
-			return;
+			sc.next();
 		}
-		int studentId = sc.nextInt();
+
+		studentId = sc.nextInt();
 		if (studentId > 0 && studentId <= 20) {
 			globalStudentId = studentId;
-			var studentDetails = getStudentDetailsbyId(studentId);
+			var studentDetails = CourseController.getInstance().getStudentDetailsbyId(studentId);
 			if (studentDetails != null) {
-				System.out.println("Welcome " + studentDetails.getStudentName() + "!..");
-				chooseTimetable();
+				System.out.println("Welcome " + studentDetails.getStudentName() + "!..\n");
+				chooseTimetableView();
 			}
 		} else {
 			System.out.println("Invalid Student Id");
+			bookGroupExerciseView();
 		}
 	}
 
-	//Get Student Details By Id
-	public Student getStudentDetailsbyId(int studentId) {
-		Student studentDetails = new Student();
-		if (studentId > 0) {
-			var preRegisteredStudents = CourseController.getInstance().getPreregisteredStudents();
-			if (preRegisteredStudents != null && !preRegisteredStudents.isEmpty()) {
-				// Predicate
-				studentDetails = preRegisteredStudents.stream().filter(s -> s.getStudentId() == studentId).findFirst()
-						.orElse(null);
-			}
-		}
-		return studentDetails;
-	}
-
-	public void chooseTimetable() {
+	public void chooseTimetableView() {
 
 		Scanner sc = new Scanner(System.in);
 
 		// Display menu
-		System.out.println("\nChoose Timetable\n=====================");
-		System.out.println("1. View timetable by day");
-		System.out.println("2. View timetable by exercise name");
+		System.out.println("******* Choose Timetable **********************************");
+		System.out.println("***********************************************************");
+		System.out.println("(1) View timetable by day");
+		System.out.println("(2) View timetable by exercise name");
+		System.out.println("(3) Exit");
+		System.out.println("(0) Main menu");
 		System.out.println("Please enter your choice:");
-		if (!sc.hasNextInt()) {
+
+		while (!sc.hasNextInt()) {
 			System.out.println("Invalid choice");
-			return;
+			sc.next();
 		}
 		int choice = sc.nextInt();
 		switch (choice) {
+		case 0:
+			HomeController.getInstance().getMainView();
+			break;
 		case 1:
 			printExerciseDays();
 			break;
 		case 2:
 			printExerciseNames();
 			break;
+		case 3:
+			break;
 		default:
 			System.out.println("Invalid choice");
+			chooseTimetableView();
 			return;
 		}
 	}
@@ -92,8 +87,8 @@ public class CourseView {
 	public void printExerciseDays() {
 		int i = 1;
 
-		for (ExcerciseDaysEnum day : ExcerciseDaysEnum.values()) {
-			System.out.println(i + ". " + day);
+		for (ExerciseDaysEnum day : ExerciseDaysEnum.values()) {
+			System.out.println("(" + i + ") " + day);
 			i++;
 		}
 		System.out.println("Please enter your choice:");
@@ -119,8 +114,8 @@ public class CourseView {
 
 	public void printExerciseNames() {
 		int i = 1;
-		for (ExcerciseNamesEnum excercise : ExcerciseNamesEnum.values()) {
-			System.out.println(i + ". " + excercise.getlessonName());
+		for (ExerciseNamesEnum exercise : ExerciseNamesEnum.values()) {
+			System.out.println("(" + i + ") " + exercise.getlessonName());
 			i++;
 		}
 		System.out.println("Please enter your choice:");
@@ -132,22 +127,22 @@ public class CourseView {
 		int choice = sc.nextInt();
 		switch (choice) {
 		case 1:
-			printTimeTable(false, "", ExcerciseNamesEnum.YOGA.toString());
+			printTimeTable(false, "", ExerciseNamesEnum.YOGA.toString());
 			break;
 		case 2:
-			printTimeTable(false, "", ExcerciseNamesEnum.ZUMBA.toString());
+			printTimeTable(false, "", ExerciseNamesEnum.ZUMBA.toString());
 			break;
 		case 3:
-			printTimeTable(false, "", ExcerciseNamesEnum.AQUACISE.toString());
+			printTimeTable(false, "", ExerciseNamesEnum.AQUACISE.toString());
 			break;
 		case 4:
-			printTimeTable(false, "", ExcerciseNamesEnum.BOX_FIT.toString());
+			printTimeTable(false, "", ExerciseNamesEnum.BOX_FIT.toString());
 			break;
 		case 5:
-			printTimeTable(false, "", ExcerciseNamesEnum.BODY_BLITZ.toString());
+			printTimeTable(false, "", ExerciseNamesEnum.BODY_BLITZ.toString());
 			break;
 		case 6:
-			printTimeTable(false, "", ExcerciseNamesEnum.BOXING.toString());
+			printTimeTable(false, "", ExerciseNamesEnum.BOXING.toString());
 			break;
 		default:
 			System.out.println("Invalid choice");
@@ -156,7 +151,7 @@ public class CourseView {
 
 	}
 
-	public void printTimeTable(boolean isPrintByDay, String dayName, String excerciseName) {
+	public void printTimeTable(boolean isPrintByDay, String dayName, String exerciseName) {
 
 		CommandLineTable st = new CommandLineTable();
 		// st.setRightAlign(true);//if true then cell text is right aligned
@@ -169,6 +164,10 @@ public class CourseView {
 					.collect(Collectors.toList());
 		}
 
+		System.out.println(
+				"****************************************** Timetable *****************************************************************");
+		// System.out.println("");
+
 		st.setHeaders("DAY", "DATE", "MORNING(Courses)", "PRICE", "AFTERNOON(Courses)", "PRICE", "EVENING(Courses)",
 				"PRICE");
 		for (var item : list.daysList) {
@@ -176,7 +175,7 @@ public class CourseView {
 			if (!isPrintByDay) {
 				// filter - get lesson by lesson name
 
-				lessonList = lessonList.stream().filter(s -> s.getLessonName().toString() == excerciseName)
+				lessonList = lessonList.stream().filter(s -> s.getLessonName().toString() == exerciseName)
 						.collect(Collectors.toList());
 			}
 			var morningSession = lessonList.stream().filter(s -> s.getSessionName() == SessionsEnum.MORNING).findFirst()
@@ -186,20 +185,29 @@ public class CourseView {
 			var eveningSession = lessonList.stream().filter(s -> s.getSessionName() == SessionsEnum.EVENING).findFirst()
 					.orElse(null);
 			if (morningSession != null || afternoonSession != null || eveningSession != null) {
-				st.addRow(item.getDay().toString(), item.getDate(),
+				st.addRow(item.getDay().toString(), item.getStringDate(),
 						(morningSession != null
-								? morningSession.getLessonName().toString() + "(" + morningSession.getSessionName()
-										+ ")"
+								? morningSession.getLessonName().toString() + "("
+										+ (MAX_STUDENT_COUNT
+												- CourseController.getInstance()
+														.getStudentCount(morningSession.getLessonName(), item.getDate())
+												+ " slots left)")
 								: "-"),
 						(morningSession != null ? "$" + String.valueOf(morningSession.getLessonPrice()) : "-"),
 						(afternoonSession != null
-								? afternoonSession.getLessonName().toString() + "(" + afternoonSession.getSessionName()
-										+ ")"
+								? afternoonSession.getLessonName().toString() + "("
+										+ (MAX_STUDENT_COUNT
+												- CourseController.getInstance().getStudentCount(
+														afternoonSession.getLessonName(), item.getDate())
+												+ " slots left)")
 								: "-"),
 						(afternoonSession != null ? "$" + String.valueOf(afternoonSession.getLessonPrice()) : "-"),
 						(eveningSession != null
-								? eveningSession.getLessonName().toString() + "(" + eveningSession.getSessionName()
-										+ ")"
+								? eveningSession.getLessonName().toString() + "("
+										+ (MAX_STUDENT_COUNT
+												- CourseController.getInstance()
+														.getStudentCount(eveningSession.getLessonName(), item.getDate())
+												+ " slots left)")
 								: "-"),
 						(eveningSession != null ? "$" + String.valueOf(eveningSession.getLessonPrice()) : "-"));
 			}
@@ -209,7 +217,7 @@ public class CourseView {
 	}
 
 	// global variable
-	ExcerciseNamesEnum lessonName;
+	ExerciseNamesEnum lessonName;
 	LocalDate lessonDate;
 
 	public void bookSlotMenu() {
@@ -218,11 +226,11 @@ public class CourseView {
 
 		System.out.println("Which course would you like to choose?");
 		int i = 1;
-		for (ExcerciseNamesEnum name : ExcerciseNamesEnum.values()) {
+		for (ExerciseNamesEnum name : ExerciseNamesEnum.values()) {
 			System.out.print(i + "." + name.getlessonName() + "  ");
 			i++;
 		}
-		System.out.println("Please choose a option:");
+		System.out.println("\nPlease select the course shown in the timetable: ");
 		if (!sc.hasNextInt()) {
 			System.out.println("Invalid choice");
 			return;
@@ -230,22 +238,22 @@ public class CourseView {
 		int choice = sc.nextInt();
 		switch (choice) {
 		case 1:
-			lessonName = ExcerciseNamesEnum.YOGA;
+			lessonName = ExerciseNamesEnum.YOGA;
 			break;
 		case 2:
-			lessonName = ExcerciseNamesEnum.ZUMBA;
+			lessonName = ExerciseNamesEnum.ZUMBA;
 			break;
 		case 3:
-			lessonName = ExcerciseNamesEnum.AQUACISE;
+			lessonName = ExerciseNamesEnum.AQUACISE;
 			break;
 		case 4:
-			lessonName = ExcerciseNamesEnum.BOX_FIT;
+			lessonName = ExerciseNamesEnum.BOX_FIT;
 			break;
 		case 5:
-			lessonName = ExcerciseNamesEnum.BODY_BLITZ;
+			lessonName = ExerciseNamesEnum.BODY_BLITZ;
 			break;
 		case 6:
-			lessonName = ExcerciseNamesEnum.BOXING;
+			lessonName = ExerciseNamesEnum.BOXING;
 			break;
 		default:
 			System.out.println("Invalid choice");
@@ -283,9 +291,10 @@ public class CourseView {
 	}
 
 	public void createBooking() {
-		if (TimeTable.CheckLessonAndDateAvailable(lessonName, lessonDate)) {
+		if (TimeTable.checkLessonAndDateAvailable(lessonName, lessonDate)) {
 
-			if (!checkIsLessonAlreadyBooked(globalStudentId, lessonName, lessonDate)) {
+			// Check lesson already booked or not
+			if (!CourseController.getInstance().checkIsLessonAlreadyBooked(globalStudentId, lessonName, lessonDate)) {
 				if (CourseController.getInstance().getStudentCount(lessonName, lessonDate) < MAX_STUDENT_COUNT) {
 
 					if (changeBookingId != null && !changeBookingId.isBlank() && !changeBookingId.isEmpty()) {
@@ -316,9 +325,9 @@ public class CourseView {
 						bookingObj.setLessonPrice(LessonPricing.getPriceByLessonName(lessonName));
 						list.add(bookingObj);
 						CourseController.setStudentBookingList(list);
-						System.out.println("Thank you for booking the excercise");
-						System.out.println(lessonName.getlessonName() + " is booked successfully!");
-						System.out.println("Your Booking Id is " + bookingObj.getBookingId());
+						System.out.println("Thank you for booking the exercise");
+						System.out.println("Your course " + lessonName.getlessonName() + " is booked successfully!");
+						System.out.println("Your Booking Id is " + bookingObj.getBookingId() + "\n");
 					}
 
 				} else {
@@ -330,42 +339,41 @@ public class CourseView {
 		} else {
 			System.out.println("Record not exist in timetable");
 		}
-		HomeController.getInstance().getMainView();
+		goBackToMenuView();
 		globalStudentId = 0;
-
-	}
-
-	public boolean checkIsLessonAlreadyBooked(int studentId, ExcerciseNamesEnum lessonName, LocalDate date) {
-		boolean isExist;
-		isExist = CourseController.getBookingList().stream().anyMatch(s -> s.getStudentId() == studentId
-				&& s.getLessonDate().isEqual(date) && s.getLessonName().equals(lessonName));
-		return isExist;
 
 	}
 
 	public void changeBookingView() {
 
 		Scanner sc = new Scanner(System.in);
-		System.out.println("============================================== ");
-		System.out.println("\nChange a Booking\n=====================");
-		System.out.println("1. Change to a new lesson");
-		System.out.println("2. Cancel a booking");
+		System.out.println("******* Change a Booking **********************************");
+		System.out.println("***********************************************************");
+		System.out.println("(1) Change to a new lesson");
+		System.out.println("(2) Cancel a booking");
+		System.out.println("(3) Exit");
+		System.out.println("(0) Main menu");
 		System.out.println("Please enter your choice:");
-		if (!sc.hasNextInt()) {
+		while (!sc.hasNextInt()) {
 			System.out.println("Invalid choice");
-			return;
+			sc.next();
 		}
 		int choice = sc.nextInt();
 		switch (choice) {
+		case 0:
+			HomeController.getInstance().getMainView();
+			break;
 		case 1:
 			changeToNewLesson();
 			break;
 		case 2:
 			cancelBookingById();
 			break;
+		case 3:
+			break;
 		default:
 			System.out.println("Invalid choice");
-			return;
+			changeBookingView();
 		}
 
 	}
@@ -378,9 +386,9 @@ public class CourseView {
 		do {
 			changeBookingId = sc.nextLine();
 		} while (changeBookingId.isEmpty() && changeBookingId.isBlank());
-		globalStudentId = getStudentIdByBookingId(changeBookingId);
+		globalStudentId = CourseController.getInstance().getStudentIdByBookingId(changeBookingId);
 		if (globalStudentId > 0) {
-			chooseTimetable();
+			chooseTimetableView();
 		} else {
 			System.out.println("Invalid Booking Id:");
 		}
@@ -405,42 +413,24 @@ public class CourseView {
 
 		// if confirm change the status
 		if (confirmOption == 'y') {
-			globalStudentId = getStudentIdByBookingId(cancelBookingId);
+			globalStudentId = CourseController.getInstance().getStudentIdByBookingId(cancelBookingId);
 			if (globalStudentId > 0) {
 
 				// Cancel booking
-				changeBoookingStatusByBookingId(cancelBookingId, BookingStatusEnum.CANCELLED);
+				CourseController.getInstance().changeBoookingStatusByBookingId(cancelBookingId,
+						BookingStatusEnum.CANCELLED);
 
 				System.out.println("Your booking cancelled successfully!");
-				HomeController.getInstance().getMainView();
+				goBackToMenuView();
 				globalStudentId = 0;
 			} else {
 				System.out.println("Invalid Booking Id:");
 			}
 		} else {
-			HomeController.getInstance().getMainView();
+			goBackToMenuView();
 			globalStudentId = 0;
 		}
 
-	}
-
-	public void changeBoookingStatusByBookingId(String bookingId, BookingStatusEnum status) {
-		if (bookingId != null && !bookingId.isBlank() && !bookingId.isEmpty()) {
-			CourseController.getBookingList().stream().filter(f -> f.getBookingId().equals(bookingId)).map(t -> {
-				t.setBookingStatus(status);
-				return t;
-			}).collect(Collectors.toList());
-		}
-	}
-
-	public int getStudentIdByBookingId(String changeBookingId) {
-
-		int studentId = 0;
-		var studentObj = CourseController.getBookingList().stream().filter(
-				f -> f.getBookingId().equals(changeBookingId) && f.getBookingStatus() != BookingStatusEnum.CANCELLED)
-				.findFirst().orElse(null);
-		studentId = studentObj != null && studentObj.getStudentId() > 0 ? studentObj.getStudentId() : 0;
-		return studentId;
 	}
 
 	public void attendLessonAndRatingView() {
@@ -451,20 +441,27 @@ public class CourseView {
 		do {
 			bookingId = input.nextLine();
 		} while (bookingId.isEmpty() && bookingId.isBlank());
-		char confirmOption;
-		do {
-			System.out.println("Are you sure want to attend a lesson? (Type Y or N): ");
-			confirmOption = input.next().charAt(0);
-			confirmOption = Character.toLowerCase(confirmOption);
-		} while (confirmOption != 'y' && confirmOption != 'n');
+		int studentId = CourseController.getInstance().getStudentIdByBookingId(changeBookingId);
+		if (studentId > 0) {
+			char confirmOption;
+			do {
+				System.out.println("Are you sure want to attend a lesson? (Type Y or N): ");
+				confirmOption = input.next().charAt(0);
+				confirmOption = Character.toLowerCase(confirmOption);
+			} while (confirmOption != 'y' && confirmOption != 'n');
 
-		// if confirm change the status to attended
-		if (confirmOption == 'y') {
-			changeBoookingStatusByBookingId(bookingId, BookingStatusEnum.ATTENDED);
-			ratingMenuView(bookingId);
+			// if confirm change the status to attended
+			if (confirmOption == 'y') {
+				CourseController.getInstance().changeBoookingStatusByBookingId(bookingId, BookingStatusEnum.ATTENDED);
+				ratingMenuView(bookingId);
+			} else {
+				goBackToMenuView();
+			}
 		} else {
-			HomeController.getInstance().getMainView();
+			System.out.println("Invalid Booking Id");
+			attendLessonAndRatingView();
 		}
+
 	}
 
 	public void ratingMenuView(String bookingId) {
@@ -488,42 +485,43 @@ public class CourseView {
 			System.out.println("Please enter a valid option: ");
 			rating = sc.nextInt();
 		}
-//		switch (choice) {
-//		case 1:
-//			rating = 1;
-//			break;
-//		case 2:
-//			rating = 2;
-//			break;
-//		case 3:
-//			rating = 3;
-//			break;
-//		case 4:
-//			rating = RatingEnum.SATISFIED;
-//			break;
-//		default:
-//			System.out.println("Invalid option");
-//			return;
-//		}
-
 		System.out.println("Please write a review:");
 		Scanner input = new Scanner(System.in);
 		do {
 			review = input.nextLine();
 		} while (review.isBlank() && review.isEmpty());
 
-		assignRatingAndReview(bookingId, rating, review);
-		System.out.println("Thank you for your rating and review");
-		HomeController.getInstance().getMainView();
+		CourseController.getInstance().assignRating(bookingId, rating, review);
+		System.out.println("Thank you for your rating and review\n");
+		goBackToMenuView();
 
 	}
 
-	public void assignRatingAndReview(String bookingId, int rating, String review) {
-		CourseController.getBookingList().stream().filter(f -> f.getBookingId().equals(bookingId)).map(t -> {
-			t.setRating(rating);
-			t.setReview(review);
-			return t;
-		}).collect(Collectors.toList());
+	public void goBackToMenuView() {
+		Scanner sc = new Scanner(System.in);
+		System.out.println("***********************************************************");
+		System.out.println("if you want to go back to the main menu choose option (1) or (2) to exit");
+		System.out.println("(1) Exit");
+		System.out.println("(2) Main menu");
+		System.out.println("Please enter your choice:");
+
+		while (!sc.hasNextInt()) {
+			System.out.println("Invalid choice");
+			sc.next();
+		}
+		int choice = sc.nextInt();
+		switch (choice) {
+		case 1:
+			printExerciseDays();
+			break;
+		case 2:
+			HomeController.getInstance().getMainView();
+			break;
+		default:
+			System.out.println("Invalid choice");
+			HomeController.getInstance().getMainView();
+		}
+
 	}
 
 }

@@ -19,7 +19,6 @@ public class Student {
 	
 	private String fullName;
 	
-	public List<Booking> bookingList; 
 	public Student() 
 	{
 		

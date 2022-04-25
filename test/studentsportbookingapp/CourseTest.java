@@ -12,7 +12,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import studentsportbookingapp.models.Student;
-import studentsportbookingapp.utilities.ExcerciseNamesEnum;
+import studentsportbookingapp.utilities.ExerciseNamesEnum;
 import studentsportbookingapp.controllers.*;
 import studentsportbookingapp.views.*;
 import studentsportbookingapp.models.*;
@@ -30,9 +30,7 @@ public class CourseTest {
 
 	@Before
 	public void setUp() throws Exception {
-		CourseController.getInstance();
-		courseViewObj = CourseController.getInstance().getCourseView();
-		
+		CourseController.getInstance();	
 	}
 
 	@After
@@ -45,7 +43,7 @@ public class CourseTest {
 		int studentId = 1; // Hard coded student
 		Student studentDetails = new Student();
 		// CourseController.getInstance().get
-		studentDetails = CourseController.getInstance().getCourseView().getStudentDetailsbyId(studentId);
+		studentDetails = CourseController.getInstance().getStudentDetailsbyId(studentId);
 		//
 		assertNotNull(studentDetails);
 		assertEquals(studentId, studentDetails.getStudentId());
@@ -56,7 +54,7 @@ public class CourseTest {
 		// Test Fail
 		int studentId = 30;
 		Student studentDetails = new Student();
-		studentDetails = courseViewObj.getStudentDetailsbyId(studentId);
+		studentDetails = CourseController.getInstance().getStudentDetailsbyId(studentId);
 		assertNotNull(studentDetails);
 		assertEquals(studentId, studentDetails.getStudentId());
 	}
@@ -66,7 +64,7 @@ public class CourseTest {
 		// Test Pass
 		String bookingId = "87KL898660DD";
 		int studentId = 3;
-		int result = courseViewObj.getStudentIdByBookingId(bookingId);
+		int result = CourseController.getInstance().getStudentIdByBookingId(bookingId);
 		assertEquals(studentId, result);
 	}
 
@@ -75,7 +73,7 @@ public class CourseTest {
 		// Test Fails
 		String bookingId = "87KL898660DD";
 		int studentId = 4;
-		int result = courseViewObj.getStudentIdByBookingId(bookingId);
+		int result = CourseController.getInstance().getStudentIdByBookingId(bookingId);
 		assertEquals(studentId, result);
 	}
 
@@ -84,8 +82,8 @@ public class CourseTest {
 		// Test Pass
 		int studentId = 3;
 		LocalDate lessonDate = LocalDate.of(2022, Month.APRIL, 3);
-		ExcerciseNamesEnum lessonName =  ExcerciseNamesEnum.BOX_FIT;
-		boolean result = courseViewObj.checkIsLessonAlreadyBooked(studentId,lessonName,lessonDate);
+		ExerciseNamesEnum lessonName =  ExerciseNamesEnum.BOX_FIT;
+		boolean result = CourseController.getInstance().checkIsLessonAlreadyBooked(studentId,lessonName,lessonDate);
 		assertEquals(true, result);
 	}
 	@Test
@@ -93,8 +91,8 @@ public class CourseTest {
 		// Test Fail
 		int studentId = 3;
 		LocalDate lessonDate = LocalDate.of(2022, Month.APRIL, 4);
-		ExcerciseNamesEnum lessonName =  ExcerciseNamesEnum.BOX_FIT;
-		boolean result = courseViewObj.checkIsLessonAlreadyBooked(studentId,lessonName,lessonDate);
+		ExerciseNamesEnum lessonName =  ExerciseNamesEnum.BOX_FIT;
+		boolean result = CourseController.getInstance().checkIsLessonAlreadyBooked(studentId,lessonName,lessonDate);
 		assertEquals(true, result);
 	}
 
@@ -109,7 +107,7 @@ public class CourseTest {
 	public void testBookedStudentCountByLesson() {
 		// Test Pass
 		LocalDate lessonDate = LocalDate.of(2022, Month.APRIL, 3);
-		ExcerciseNamesEnum lessonName =  ExcerciseNamesEnum.BOX_FIT;
+		ExerciseNamesEnum lessonName =  ExerciseNamesEnum.BOX_FIT;
 		long result = CourseController.getInstance().getStudentCount(lessonName, lessonDate);
 		assertEquals(true, result > 0);
 	}
