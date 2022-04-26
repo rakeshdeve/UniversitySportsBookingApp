@@ -512,7 +512,6 @@ public class CourseView {
 		int choice = sc.nextInt();
 		switch (choice) {
 		case 1:
-			printExerciseDays();
 			break;
 		case 2:
 			HomeController.getInstance().getMainView();
