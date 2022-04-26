@@ -25,7 +25,7 @@ public class CourseView {
 	public void bookGroupExerciseView() {
 		Scanner sc = new Scanner(System.in);
 		System.out.println("******* Book a group exercise lesson *********************");
-		System.out.println("***********************************************************");
+		System.out.println("**********************************************************");
 		System.out.println("Enter your student Id from 1 to 20:");
 		int studentId = 0;
 		while (!sc.hasNextInt()) {
@@ -52,8 +52,8 @@ public class CourseView {
 		Scanner sc = new Scanner(System.in);
 
 		// Display menu
-		System.out.println("******* Choose Timetable **********************************");
-		System.out.println("***********************************************************");
+		System.out.println("******* Choose Timetable *********************************");
+		System.out.println("**********************************************************");
 		System.out.println("(1) View timetable by day");
 		System.out.println("(2) View timetable by exercise name");
 		System.out.println("(3) Exit");
@@ -86,7 +86,8 @@ public class CourseView {
 
 	public void printExerciseDays() {
 		int i = 1;
-
+		System.out.println("******* Timetable by Day *********************************");
+		System.out.println("**********************************************************");
 		for (ExerciseDaysEnum day : ExerciseDaysEnum.values()) {
 			System.out.println("(" + i + ") " + day);
 			i++;
@@ -114,6 +115,8 @@ public class CourseView {
 
 	public void printExerciseNames() {
 		int i = 1;
+		System.out.println("******* Timetable by Exercise Name ***********************");
+		System.out.println("**********************************************************");
 		for (ExerciseNamesEnum exercise : ExerciseNamesEnum.values()) {
 			System.out.println("(" + i + ") " + exercise.getlessonName());
 			i++;
@@ -350,7 +353,7 @@ public class CourseView {
 		System.out.println("******* Change a Booking **********************************");
 		System.out.println("***********************************************************");
 		System.out.println("(1) Change to a new lesson");
-		System.out.println("(2) Cancel a booking");
+		System.out.println("(2) Cancel your booking");
 		System.out.println("(3) Exit");
 		System.out.println("(0) Main menu");
 		System.out.println("Please enter your choice:");
@@ -420,7 +423,7 @@ public class CourseView {
 				CourseController.getInstance().changeBoookingStatusByBookingId(cancelBookingId,
 						BookingStatusEnum.CANCELLED);
 
-				System.out.println("Your booking cancelled successfully!");
+				System.out.println("Your reservation has been cancelled successfully!");
 				goBackToMenuView();
 				globalStudentId = 0;
 			} else {
@@ -435,13 +438,15 @@ public class CourseView {
 
 	public void attendLessonAndRatingView() {
 		String bookingId;
+		System.out.println("******* Attend a lesson **********************************");
+		System.out.println("***********************************************************");
 		Scanner input = new Scanner(System.in);
 		System.out.println("Enter your Booking Id:");
 
 		do {
 			bookingId = input.nextLine();
 		} while (bookingId.isEmpty() && bookingId.isBlank());
-		int studentId = CourseController.getInstance().getStudentIdByBookingId(changeBookingId);
+		int studentId = CourseController.getInstance().getStudentIdByBookingId(bookingId);
 		if (studentId > 0) {
 			char confirmOption;
 			do {
